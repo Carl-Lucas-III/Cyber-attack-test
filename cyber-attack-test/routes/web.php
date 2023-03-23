@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SpecialpostsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +23,10 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/posts', [PostsController::class,'show'])->middleware(['auth', 'verified'])->name('posts.show');
+
+Route::get('/specialposts', [SpecialpostsController::class,'show'])->middleware(['auth', 'verified'])->name('specialposts.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
