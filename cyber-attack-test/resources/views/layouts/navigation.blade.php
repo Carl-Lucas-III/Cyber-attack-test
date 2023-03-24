@@ -19,7 +19,7 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('posts.show')" :active="request()->routeIs('posts.show')">
+                    <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
                         {{ __('Posts') }}
                     </x-nav-link>
                 </div>
@@ -27,7 +27,7 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('specialposts.show')" :active="request()->routeIs('specialposts.show')">
+                    <x-nav-link :href="route('specialposts.index')" :active="request()->routeIs('specialposts.index')">
                         {{ __('Specialposts') }}
                     </x-nav-link>
                 </div>

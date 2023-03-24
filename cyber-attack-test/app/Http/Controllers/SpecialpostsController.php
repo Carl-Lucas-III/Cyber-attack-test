@@ -12,7 +12,7 @@ class SpecialpostsController extends Controller
      */
     public function index()
     {
-        //
+        return View('Posts', ['posts' =>Specialpost::select()->get()]);
     }
 
     /**

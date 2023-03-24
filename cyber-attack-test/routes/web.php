@@ -24,9 +24,15 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/posts', [PostsController::class,'index'])->middleware(['auth','verified'])->name('posts.show');
 
-Route::get('/specialposts', [SpecialpostsController::class,'index'])->middleware(['auth', 'verified'])->name('specialposts.show');
+Route::resource('/posts',PostsController::class)->middleware(['auth','verified']);
+Route::resource('/specialposts',SpecialpostsController::class)->middleware(['auth','verified']);
+
+// Route::get('/', [PostsController::class,'index'])->name('posts.show');
+
+// Route::get('/', [SpecialpostsController::class,'index'])->middleware(['auth', 'verified'])->name('specialposts.show');
+
+// Route::get('/store', [SpecialpostsController::class,'create'])->middleware(['auth', 'verified'])->name('posts.create');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 
 class PostsController extends Controller
@@ -13,7 +14,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return View('Posts', ['posts' =>Post::select()->get()]);
+        return View('Posts', ['posts' =>Post::select()->orderBy('id','DESC')->paginate(10)]);
         
     }
 
@@ -22,7 +23,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        
+        return view('CreatePost');
     }
 
     /**
@@ -30,21 +31,19 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-
         $validated = $request->validate([
-            'name' => 'required|string|unique:posts',
+            'title' => 'required|string|unique:posts',
             'description' => 'required|string'
         ]);
-
+        
         $post = new Post();
-        $post->name = $request->name;
-        $post->description = $request->description;
-
+        $post->title = htmlspecialchars(trim(strip_tags($validated['title'])));
+        $post->description = htmlspecialchars(trim(strip_tags($validated['description'])));
+        $post->user_id = Auth::user()->id;
+        
         $post->save();
-
-        return response()->json([
-            'message' => 'Post created'
-        ]);
+        
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -60,7 +59,19 @@ class PostsController extends Controller
      */
     public function edit(Post $Post)
     {
-        //
+        if (!$Post) {
+            return response()->json([
+                'message' => 'Post not found'
+            ], 404);
+        }
+    
+        if ($Post->user_id == Auth::user()->id) {
+            return view('UpdatePost', ['post' => $Post]);
+        } else {
+            return response()->json([
+                'message' => 'You do not own this post'
+            ], 403);
+        }
     }
 
     /**
@@ -68,9 +79,26 @@ class PostsController extends Controller
      */
     public function update(Request $request, Post $Post)
     {
-        $Post->update([
+        // validate the request inputs
+    $validatedData = $request->validate([
+        'title' => 'sometimes|max:255',
+        'description' => 'sometimes',
+    ]);
+    
+    // sanitize the data
+    if($validatedData['title'])
+    $title = strip_tags(trim($validatedData['title']));
+    if($validatedData['description'])
+    $description = htmlspecialchars(strip_tags(trim($validatedData['description'])), ENT_QUOTES);
 
-        ]);
+    // update the post with sanitized data
+
+    $Post->update([
+        'title' => $validatedData['title']?$title:$Post->title,
+        'description' => $validatedData['description']?$description:$Post->description,
+    ]);
+
+    return redirect()->route('posts.index');
     }
 
     /**
@@ -78,6 +106,15 @@ class PostsController extends Controller
      */
     public function destroy(Post $Post)
     {
-        $Post->delete();
+
+        
+        if($Post->user_id == Auth::user()->id){
+   
+            $Post->delete();
+            
+            return redirect()->back();
+        }
+        else
+        return redirect()->back()->withErrors('this post is not yours')->withInput();
     }
 }
