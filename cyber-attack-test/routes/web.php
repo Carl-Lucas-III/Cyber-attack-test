@@ -24,7 +24,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/posts', [PostsController::class,'show'])->middleware(['auth'])->name('posts.show');
+Route::get('/posts', [PostsController::class,'index'])->middleware(['auth'])->name('posts.show');
 
 Route::get('/specialposts', [SpecialpostsController::class,'show'])->middleware(['auth'])->name('specialposts.show');
 
