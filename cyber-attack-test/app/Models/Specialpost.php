@@ -9,6 +9,6 @@ class Specialpost extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['title', 'description'];
     protected $table = 'specialposts'; // specify the table name
 }

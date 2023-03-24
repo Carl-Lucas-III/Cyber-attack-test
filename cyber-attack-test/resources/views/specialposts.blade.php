@@ -13,7 +13,7 @@
                 <div class="flex flex-col gap-2 w-2/4 bg-white min-h-[100px] py-3 px-4 rounded-md border-2">
                     <div class="w-">
                         <div>
-                            <h1 class="font-semibold text-lg">{{ $specialPost->name }}</h1>
+                            <h1 class="font-semibold text-lg">{{ $specialPost->title }}</h1>
                         </div>
                         <div>
                             <p>{{ $specialPost->description }}</p>
