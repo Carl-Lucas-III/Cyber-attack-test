@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('specialposts', function (Blueprint $table) {
-            $table->id();
             $table->string('title');
             $table->string('description');
             $table->timestamps();

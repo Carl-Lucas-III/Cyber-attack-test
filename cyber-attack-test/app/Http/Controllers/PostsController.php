@@ -14,7 +14,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return View('Posts', ['posts' =>Post::select()->orderBy('id','DESC')->paginate(10)]);
+        return View('Posts', ['posts' =>Post::select()->orderBy('created_at','DESC')->paginate(10)]);
         
     }
 
@@ -37,8 +37,8 @@ class PostsController extends Controller
         ]);
         
         $post = new Post();
-        $post->title = htmlspecialchars(trim(strip_tags($validated['title'])));
-        $post->description = htmlspecialchars(trim(strip_tags($validated['description'])));
+        $post->title = htmlentities(trim(strip_tags($validated['title'])));
+        $post->description = htmlentities(trim(strip_tags($validated['description'])));
         $post->user_id = Auth::user()->id;
         
         $post->save();
@@ -87,9 +87,9 @@ class PostsController extends Controller
     
     // sanitize the data
     if($validatedData['title'])
-    $title = strip_tags(trim($validatedData['title']));
+    $title = htmlentities(strip_tags(trim($validatedData['title'])));
     if($validatedData['description'])
-    $description = htmlspecialchars(strip_tags(trim($validatedData['description'])), ENT_QUOTES);
+    $description = htmlentities(strip_tags(trim($validatedData['description'])), ENT_QUOTES);
 
     // update the post with sanitized data
 
