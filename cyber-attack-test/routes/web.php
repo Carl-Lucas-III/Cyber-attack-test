@@ -26,7 +26,7 @@ Route::get('/dashboard', function () {
 
 
 Route::resource('/posts',PostsController::class)->middleware(['auth','verified']);
-Route::resource('/specialposts',SpecialpostsController::class)->middleware(['auth','verified']);
+Route::resource('/specialposts',SpecialpostsController::class)->middleware(['auth','verified','check_role:special']);
 
 // Route::get('/', [PostsController::class,'index'])->name('posts.show');
 
