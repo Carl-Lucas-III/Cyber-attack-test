@@ -12,7 +12,7 @@ class SpecialpostsController extends Controller
      */
     public function index()
     {
-        //
+        return view('SpecialPosts' , ['specialPosts' =>Specialpost::select()->get()]);
     }
 
     /**
@@ -28,8 +28,20 @@ class SpecialpostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $validated = $request->validate([
+            'name' => 'required|string|unique:posts',
+            'description' => 'required|string'
+        ]);
+
+        $specialPost = new SpecialPost();
+        $specialPost->name = $request->name;
+        $specialPost->description = $request->description;
+
+        $specialPost->save();
+
+        return response()->json([
+            'message' => 'SpecialPost created'
+        ]);    }
 
     /**
      * Display the specified resource.

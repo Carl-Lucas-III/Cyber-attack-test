@@ -5,7 +5,9 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Post;
+use App\Models\SpecialPost;
 use App\Models\User;
+use Carbon\Factory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,5 +29,10 @@ class DatabaseSeeder extends Seeder
             Post::factory(10)
         )
         ->create();
+
+
+        SpecialPost::factory(10)->create();
+
+        
     }
 }
