@@ -18,10 +18,10 @@ return new class extends Migration
         });
 
         // Generate UUIDs for existing records
-        $posts = User::all();
-        foreach ($posts as $post) {
-            $post->id = Uuid::uuid4();
-            $post->save();
+        $users = User::all();
+        foreach ($users as $user) {
+            $user->id = Uuid::uuid4();
+            $user->save();
         }
     }
 
